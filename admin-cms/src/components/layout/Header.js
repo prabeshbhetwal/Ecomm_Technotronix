@@ -7,9 +7,11 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <div>
-      <Navbar expand="lg" variant="dark" className="bg-dark">
+      <Navbar expand="md" variant="dark" className="bg-dark">
         <Container>
-          <Navbar.Brand href="#home">Ecomm Technotronics</Navbar.Brand>
+          <Link to="/" className="navbar-brand">
+            Ecomm Technotronix
+          </Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">

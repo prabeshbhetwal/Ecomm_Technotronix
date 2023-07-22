@@ -1,15 +1,15 @@
 import React from "react";
-import AdminSignUp from "../../components/admin-signup/AdminSignUp";
+
 import Header from "../../components/layout/Header";
-import Footer from "../../components/layout/Footer";
+import { AdminSignup } from "../../components/admin-signup/AdminSignUp";
 
 const SignUp = () => {
   return (
     <div>
       <Header />
-      <AdminSignUp />
-
-      <Footer />
+      <main className="main">
+        <AdminSignup />
+      </main>
     </div>
   );
 };

@@ -6,7 +6,7 @@ const SignIn = () => {
   return (
     <div>
       <Header />
-      <p>Sign In</p>
+      <main className="main">SignIn</main>
       <Footer />
     </div>
   );
