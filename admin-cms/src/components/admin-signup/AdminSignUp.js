@@ -22,7 +22,7 @@ export const AdminSignup = () => {
     const { confirmPassword, ...rest } = form;
 
     if (confirmPassword !== rest.password) {
-      return toast.error("Password should match");
+      return toast.error("Password should match.");
     }
     createNewAdminAction(rest);
   };
@@ -88,8 +88,8 @@ export const AdminSignup = () => {
       >
         <h3>Add New Admin</h3>
         <hr />
-        {inputs.map((itm, i) => (
-          <CustomInput key={i} {...itm} onChange={handleOnChange} />
+        {inputs.map((item, i) => (
+          <CustomInput key={i} {...item} onChange={handleOnChange} />
         ))}
 
         <div className="d-grid mt-5">
