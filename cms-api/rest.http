@@ -9,5 +9,10 @@ Content-Type: application/json
 "fName": "Prabesh",
 "lName": "Bhetwal",
 "phone":"0460932918",
+"email": "jarvis.pc1@hotmail.com",
 "password": "yeahbaby"
 }
+
+### Check Verification
+GET {{rootApi}}/admin
+Content-Type: application/json

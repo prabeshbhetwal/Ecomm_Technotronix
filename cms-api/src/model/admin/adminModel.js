@@ -6,9 +6,9 @@ export const insertAdmin = (obj) => {
 export const getAdminByEmail = (email) => {
   return adminSchema.findOne({ email });
 };
-export const updateAdminById = (_id, ...rest) => {
-  return adminSchema.findByIdAndUpdate(_id, rest);
+export const updateAdminById = (_id, obj) => {
+  return adminSchema.findByIdAndUpdate(_id, obj, { new: true });
 };
-export const deleteAdminById = (_id) => {
+export const deleteAdmin = (_id) => {
   return adminSchema.findByIdAndDelete(_id);
 };

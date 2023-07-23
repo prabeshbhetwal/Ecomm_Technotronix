@@ -1,17 +1,18 @@
 import Joi from "joi";
 
+const SHORTSTRREQ = Joi.string().min(3).max(100).required();
+const SHORTSTR = Joi.string().min(3).max(100);
+
 export const newAdminValidation = (req, res, next) => {
   try {
     //Define the schema
     const schema = Joi.object({
-      fName: Joi.string().required().min(3).max(30),
-      lName: Joi.string().required().min(3).max(30),
-      email: Joi.string().email({
-        minDomainSegments: 2,
-      }),
-      phone: Joi.string().required(),
-      address: Joi.string().allow(""),
-      password: Joi.string().required().min(6),
+      fName: SHORTSTRREQ,
+      lName: SHORTSTRREQ,
+      email: SHORTSTR.email({ minDomainSegments: 2 }),
+      phone: SHORTSTRREQ,
+      address: SHORTSTR.allow(""),
+      password: SHORTSTRREQ.min(6),
     });
 
     const { error } = schema.validate(req.body);

@@ -1,13 +1,18 @@
 import React from "react";
 import Header from "../../components/layout/Header";
-import Footer from "../../components/layout/Footer";
+import AdminSignIn from "../../components/admin-signin/AdminSignIn";
+import { Link } from "react-router-dom";
 
 const SignIn = () => {
   return (
     <div>
       <Header />
-      <main className="main">SignIn</main>
-      <Footer />
+      <main className="main">
+        <AdminSignIn />
+        <div className="text-center mt-3">
+          Don't have an account? <Link to="/new-admin">Sign Up</Link>
+        </div>
+      </main>
     </div>
   );
 };
