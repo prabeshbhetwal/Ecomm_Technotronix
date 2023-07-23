@@ -97,4 +97,22 @@ router.put("/verify", async (req, res, next) => {
   }
 });
 
+router.get("/", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    // Find the user by email and verificationCode
+    const user = await getAdminByEmail(email);
+
+    if (!user) {
+      return res.json({
+        status: "error",
+        message: "User not found.",
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;

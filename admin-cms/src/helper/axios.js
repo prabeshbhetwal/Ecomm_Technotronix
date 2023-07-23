@@ -37,3 +37,12 @@ export const verifyEmailAndCode = (verifyingData) => {
   };
   return axiosProcess(data);
 };
+
+export const loginUserDetail = (verifyingData) => {
+  const data = {
+    method: "get",
+    url: adminApi,
+    obj: verifyingData,
+  };
+  return axiosProcess(data);
+};

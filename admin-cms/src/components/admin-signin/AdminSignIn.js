@@ -20,13 +20,13 @@ const SignIn = () => {
       form.email,
       form.password
     );
-    console.log(form.email, form.password);
+    console.log(verificationResult.status);
 
     if (verificationResult.status === "success") {
       toast.success(verificationResult.message);
       window.location.href = "/user-profile";
     } else {
-      toast.error(verificationResult.message);
+      toast.error("Sorry.");
     }
   };
 
