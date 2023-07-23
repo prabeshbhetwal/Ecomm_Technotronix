@@ -1,3 +1,36 @@
-.footerplace {
-  margin-top: 32.15vh;
+.admin-layout {
+  display: flex;
+}
+
+.admin-layout .side-bar {
+  width: 230px;
+  position: fixed;
+  height: 100vh;
+}
+
+.admin-layout .main {
+  width: calc(100vw - 230px);
+  margin-left: 230px;
+}
+
+.page-content {
+  height: 84.39vh;
+}
+
+.side-nav li {
+  line-height: 1.4rem;
+  font-weight: 300;
+  padding: 5px;
+  border: 1px solid rgb(125, 125, 125);
+  color: rgba(255, 255, 255, 0.55);
+  border-radius: 7px;
+  margin: 10px;
+  text-align: justify;
+  font-size: 1.2rem;
+}
+
+.side-nav li:hover {
+  cursor: pointer;
+  background-color: rgb(125, 125, 125);
+  color: white;
 }
