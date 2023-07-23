@@ -16,3 +16,21 @@ Content-Type: application/json
 ### Check Verification
 GET {{rootApi}}/admin
 Content-Type: application/json
+
+
+#====== admin api
+### POST Category
+POST {{rootApi}}/category
+Content-Type: application/json
+
+{
+    "title":"Home Appliances", 
+}
+
+### GET Category
+GET {{rootApi}}/category
+Content-Type: application/json
+
+{
+    "title":"Home Appliances", 
+}
