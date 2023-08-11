@@ -1,8 +1,9 @@
 import axios from "axios";
 
 const rootAPI = process.env.REACT_APP_ROOTAPI;
-const admiAPI = rootAPI + "/admin";
+const adminAPI = rootAPI + "/admin";
 const catAPI = rootAPI + "/category";
+const poAPI = rootAPI + "/payment-option";
 
 const getAccessJWT = () => {
   return sessionStorage.getItem("accessJWT");
@@ -11,7 +12,13 @@ const getRefreshJWT = () => {
   return localStorage.getItem("refreshJWT");
 };
 
-const axiosProcesor = async ({ method, url, obj, isPrivate, refreshToken }) => {
+const axiosProcessor = async ({
+  method,
+  url,
+  obj,
+  isPrivate,
+  refreshToken,
+}) => {
   const token = refreshToken ? getRefreshJWT() : getAccessJWT();
 
   const headers = {
@@ -27,6 +34,20 @@ const axiosProcesor = async ({ method, url, obj, isPrivate, refreshToken }) => {
 
     return data;
   } catch (error) {
+    if (
+      error?.response?.status === 403 &&
+      error?.response?.data?.message === "jwt expired"
+    ) {
+      //1. get new accessJWT
+      const { status, accessJWT } = await getNewAccessJWT();
+      if (status === "success" && accessJWT) {
+        sessionStorage.setItem("accessJWT", accessJWT);
+      }
+
+      //2. continue the request
+
+      return axiosProcessor({ method, url, obj, isPrivate, refreshToken });
+    }
     return {
       status: "error",
       message: error.response ? error?.response?.data?.message : error.message,
@@ -34,51 +55,52 @@ const axiosProcesor = async ({ method, url, obj, isPrivate, refreshToken }) => {
   }
 };
 
-// ========= admin api
+// ========= ADMIN API
 export const getAdminInfo = () => {
   const obj = {
     method: "get",
-    url: admiAPI,
+    url: adminAPI,
     isPrivate: true,
   };
-  return axiosProcesor(obj);
+  return axiosProcessor(obj);
 };
 
 export const postNewAdmin = (data) => {
   const obj = {
     method: "post",
-    url: admiAPI,
+    url: adminAPI,
     obj: data,
   };
-  return axiosProcesor(obj);
+  return axiosProcessor(obj);
 };
 
 export const signInAdmin = (data) => {
   const obj = {
     method: "post",
-    url: admiAPI + "/sign-in",
+    url: adminAPI + "/sign-in",
     obj: data,
   };
-  return axiosProcesor(obj);
+  return axiosProcessor(obj);
 };
 
 export const postNewAdminVerificationInfo = (data) => {
   const obj = {
     method: "post",
-    url: admiAPI + "/admin-verification",
+    url: adminAPI + "/admin-verification",
     obj: data,
   };
-  return axiosProcesor(obj);
+  return axiosProcessor(obj);
 };
 
-// ========= category api
+// ========= CATEGORY API
+
 export const postNewCategory = (data) => {
   const obj = {
     method: "post",
     url: catAPI,
     obj: data,
   };
-  return axiosProcesor(obj);
+  return axiosProcessor(obj);
 };
 
 export const getCategories = () => {
@@ -87,7 +109,7 @@ export const getCategories = () => {
     url: catAPI,
     isPrivate: true,
   };
-  return axiosProcesor(obj);
+  return axiosProcessor(obj);
 };
 
 export const updateCategory = (data) => {
@@ -96,7 +118,7 @@ export const updateCategory = (data) => {
     url: catAPI,
     obj: data,
   };
-  return axiosProcesor(obj);
+  return axiosProcessor(obj);
 };
 
 export const deleteCategory = (_id) => {
@@ -104,30 +126,70 @@ export const deleteCategory = (_id) => {
     method: "delete",
     url: catAPI + "/" + _id,
   };
-  return axiosProcesor(obj);
+  return axiosProcessor(obj);
 };
 
-// ==========+ get new refreshJWT
+// ========== GET NEW refreshJWT
 
-export const getNewRefreshJWT = () => {
+export const getNewAccessJWT = () => {
   const obj = {
     method: "get",
-    url: admiAPI + "/get-accessjwt",
+    url: adminAPI + "/get-accessjwt",
     isPrivate: true,
     refreshToken: true,
   };
-  return axiosProcesor(obj);
+  return axiosProcessor(obj);
 };
 
 export const logoutAdmin = (_id) => {
   const obj = {
     method: "post",
-    url: admiAPI + "/logout",
+    url: adminAPI + "/logout",
     obj: {
       _id,
       accessJWT: getAccessJWT(),
       refreshJWT: getRefreshJWT(),
     },
   };
-  return axiosProcesor(obj);
+  return axiosProcessor(obj);
+};
+
+// ========== PAYMENT OPTION
+
+export const postNewPO = (data) => {
+  const obj = {
+    method: "post",
+    url: poAPI,
+    obj: data,
+    isPrivate: true,
+  };
+  return axiosProcessor(obj);
+};
+
+export const getNewPOs = () => {
+  const obj = {
+    method: "get",
+    url: poAPI,
+    isPrivate: true,
+  };
+  return axiosProcessor(obj);
+};
+
+export const updateNewPOs = (data) => {
+  const obj = {
+    method: "put",
+    url: poAPI,
+    isPrivate: true,
+    obj: data,
+  };
+  return axiosProcessor(obj);
+};
+
+export const deletePO = (_id) => {
+  const obj = {
+    method: "delete",
+    url: poAPI + "/" + _id,
+    isPrivate: true,
+  };
+  return axiosProcessor(obj);
 };

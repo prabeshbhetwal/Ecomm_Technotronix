@@ -5,34 +5,36 @@ import express from "express";
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-//middlewares
+// middlewares
 import morgan from "morgan";
 import cors from "cors";
-
+import { mongoConnect } from "./src/config/mongoConfig.js";
+mongoConnect();
 app.use(cors());
-app.use(morgan());
+app.use(morgan("dev"));
 app.use(express.json());
 
-//Database Connection
-import mongoConnect from "./src/config/mongoConfig.js";
-mongoConnect();
+// api
+import { auth } from "./src/middleware/authMiddleware.js";
 
-//API
 import adminRouter from "./src/router/adminRouter.js";
 app.use("/api/v1/admin", adminRouter);
 
 import categoryRouter from "./src/router/categoryRouter.js";
-import { auth } from "./src/middleware/authMiddleware.js";
-app.use("api/v1/category", auth, categoryRouter);
+app.use("/api/v1/category", auth, categoryRouter);
+
+import paymentOptionRouter from "./src/router/paymentOptionRouter.js";
+app.use("/api/v1/payment-option", auth, paymentOptionRouter);
 
 app.get("/", (req, res) => {
   res.json({
     status: "success",
-    message: "Server is running and live.",
+    message: "Server is live",
   });
 });
 
 app.use((error, req, res, next) => {
+  console.log(error);
   const code = error.statusCode || 500;
   res.status(code).json({
     status: "error",
@@ -43,5 +45,5 @@ app.use((error, req, res, next) => {
 app.listen(PORT, (error) => {
   error
     ? console.log(error)
-    : console.log(`Server running at http://localhost:${PORT}`);
+    : console.log(`server is running at http://localhost:8000`);
 });

@@ -28,6 +28,7 @@ export const newAdminValidation = (req, res, next) => {
     next(error);
   }
 };
+
 export const loginValidation = (req, res, next) => {
   try {
     //define the schema
@@ -78,6 +79,52 @@ export const updateCatValidation = (req, res, next) => {
       _id: SHORTSTRREQ,
       title: SHORTSTRREQ,
       status: SHORTSTRREQ,
+    });
+
+    const { error } = schema.validate(req.body);
+
+    error
+      ? res.json({
+          status: "error",
+          message: error.message,
+        })
+      : next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ======== payment options
+export const newPOValidation = (req, res, next) => {
+  try {
+    //define the schema
+    const schema = Joi.object({
+      status: SHORTSTRREQ,
+      title: SHORTSTRREQ,
+      description: SHORTSTRREQ,
+    });
+
+    const { error } = schema.validate(req.body);
+
+    error
+      ? res.json({
+          status: "error",
+          message: error.message,
+        })
+      : next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updatePOValidation = (req, res, next) => {
+  try {
+    //define the schema
+    const schema = Joi.object({
+      _id: SHORTSTRREQ,
+      status: SHORTSTRREQ,
+      title: SHORTSTRREQ,
+      description: SHORTSTRREQ,
     });
 
     const { error } = schema.validate(req.body);
