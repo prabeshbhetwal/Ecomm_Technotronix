@@ -22,7 +22,8 @@ import adminRouter from "./src/router/adminRouter.js";
 app.use("/api/v1/admin", adminRouter);
 
 import categoryRouter from "./src/router/categoryRouter.js";
-app.use("api/v1/category", categoryRouter);
+import { auth } from "./src/middleware/authMiddleware.js";
+app.use("api/v1/category", auth, categoryRouter);
 
 app.get("/", (req, res) => {
   res.json({

@@ -1,59 +1,62 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { AiOutlineDashboard } from "react-icons/ai";
-import { BiCategory } from "react-icons/bi";
-import { MdProductionQuantityLimits, MdPayment } from "react-icons/md";
-import { FaShuttleVan } from "react-icons/fa";
-import { BsFillPersonFill } from "react-icons/bs";
-import { RiAdminFill } from "react-icons/ri";
-import { CgProfile } from "react-icons/cg";
+import {
+  AiFillDashboard,
+  AiFillCreditCard,
+  AiFillProfile,
+} from "react-icons/ai";
+import { BiCategoryAlt } from "react-icons/bi";
+import { PiVan } from "react-icons/pi";
+import { BsFillBoxFill } from "react-icons/bs";
+import { FaUsers, FaUserSecret } from "react-icons/fa";
 
-const Sidebar = () => {
+export const Sidebar = () => {
   return (
-    <div className="side-bar bg-dark text-light">
+    <div className="side-bar bg-dark text-light p-3">
       <p className="mt-3 text-center">Admin Panel</p>
+
       <hr />
       <nav>
-        <ul className="list-unstyled side-nav">
+        <ul className="list-unstyled sid-nav">
           <li>
             <Link className="nav-link" to="/dashboard">
-              <AiOutlineDashboard className="fs-4" /> Dashboard
+              <AiFillDashboard className="fs-4" /> Dashboard
             </Link>
-          </li>{" "}
+          </li>
           <li>
             <Link className="nav-link" to="/category">
-              <BiCategory className="fs-4" /> Category
+              <BiCategoryAlt className="fs-4" /> Category
             </Link>
-          </li>{" "}
+          </li>
           <li>
-            <Link className="nav-link" to="/products">
-              <MdProductionQuantityLimits className="fs-4" /> Products
+            <Link className="nav-link" to="/product">
+              <BsFillBoxFill className="fs-4" /> Product
             </Link>
-          </li>{" "}
+          </li>
           <li>
             <Link className="nav-link" to="/payment-option">
-              <MdPayment className="fs-4" /> Payment Option
+              <AiFillCreditCard className="fs-4" /> Payment Option
             </Link>
-          </li>{" "}
+          </li>
           <li>
-            <Link className="nav-link" to="/orders">
-              <FaShuttleVan className="fs-4" /> Orders
+            <Link className="nav-link" to="/order">
+              <PiVan className="fs-4" /> Order
             </Link>
           </li>
           <li>
             <Link className="nav-link" to="/customer">
-              <BsFillPersonFill className="fs-4" /> Customer
+              <FaUsers className="fs-4" /> Customer
+            </Link>
+          </li>
+          <li>
+            <Link className="nav-link" to="/admin-user">
+              <FaUserSecret className="fs-4" /> Admin User
             </Link>
           </li>
           <hr />
           <li>
-            <Link className="nav-link" to="/admin-user">
-              <RiAdminFill className="fs-4" /> Admin User
-            </Link>
-          </li>
-          <li>
             <Link className="nav-link" to="/profile">
-              <CgProfile className="fs-4" /> Profile
+              <AiFillProfile className="fs-4" /> Profile
             </Link>
           </li>
         </ul>
@@ -61,5 +64,3 @@ const Sidebar = () => {
     </div>
   );
 };
-
-export default Sidebar;

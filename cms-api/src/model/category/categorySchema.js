@@ -10,10 +10,11 @@ const categorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
     slug: {
       type: String,
       unique: true,
-      index: -1, //index in descending order || 1 means ascending order
+      index: 1,
       required: true,
     },
   },
@@ -22,4 +23,4 @@ const categorySchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Category", categorySchema); //categorys
+export default mongoose.model("Category", categorySchema); ///categories

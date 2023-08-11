@@ -1,19 +1,20 @@
 import React from "react";
-import Header from "./Header";
-import Footer from "./Footer";
+import { Header } from "./Header";
+import { Footer } from "./Footer";
 import { Container } from "react-bootstrap";
-import Sidebar from "../sidebar/Sidebar";
+import { Sidebar } from "../sidebar/Sidebar";
 
-const AdminLayout = ({ children, title }) => {
+export const AdminLayout = ({ children, title }) => {
   return (
     <div className="admin-layout">
       <Sidebar />
       <main className="main">
         <Header />
         <Container>
-          <p>
+          <div className="mt-3">
             <h3>{title}</h3>
-          </p>
+            <hr />
+          </div>
           <div className="page-content">{children}</div>
         </Container>
         <Footer />
@@ -21,5 +22,3 @@ const AdminLayout = ({ children, title }) => {
     </div>
   );
 };
-
-export default AdminLayout;

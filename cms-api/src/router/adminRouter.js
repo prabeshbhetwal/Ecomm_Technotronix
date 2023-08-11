@@ -1,33 +1,60 @@
 import express from "express";
-import { hashPassword } from "../helper/bcrypt.js";
+import { compairPassword, hashPassword } from "../helper/bcrypt.js";
 import {
   getAdminByEmail,
   insertAdmin,
+  updateAdmin,
   updateAdminById,
-} from "../model/admin/adminModel.js";
-import { newAdminValidation } from "../middleware/joiValidation.js";
-import { accountVerificationEmail } from "../helper/nodeMailer.js";
+} from "../model/admin/AdminModel.js";
+import {
+  loginValidation,
+  newAdminValidation,
+  newAdminVerificationValidation,
+} from "../middleware/joiValidation.js";
+import {
+  accountVerificationEmail,
+  accountVerifiedNotification,
+} from "../helper/nodemailer.js";
 import { v4 as uuidv4 } from "uuid";
+import { createAcessJWT, createRefreshJWT } from "../helper/jwt.js";
+import { auth, refreshAuth } from "../middleware/authMiddleware.js";
+import { deleteSession } from "../model/session/SessionModel.js";
 
 const router = express.Router();
 
-router.post("/", newAdminValidation, async (req, res, next) => {
+// get admin details
+router.get("/", auth, (req, res, next) => {
+  try {
+    res.json({
+      status: "success",
+      message: "here is the user info",
+      user: req.userInfo,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// create new admin api
+router.post("/", auth, newAdminValidation, async (req, res, next) => {
   try {
     const { password } = req.body;
     req.body.password = hashPassword(password);
 
-    //TODO create code and end with req.body
-
-    req.body.verificationCode = uuidv4();
+    //TODO create code and add with req.body
+    req.body.verificationCode = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
 
     const result = await insertAdmin(req.body);
+
     if (result?._id) {
       res.json({
         status: "success",
-        message: "Please check your email for verification.",
+        message:
+          "Please check your email and follow the instruction to activate your account.",
       });
 
-      const link = `${process.env.WEB_DOMAIN}/admin-verification?c=${result.verificationCode}&e=${result.email}`;
+      const link = ` ${process.env.WEB_DOMAIN}/admin-verification?c=${result.verificationCode}&e=${result.email}`;
+
       await accountVerificationEmail({
         fName: result.fName,
         email: result.email,
@@ -35,81 +62,113 @@ router.post("/", newAdminValidation, async (req, res, next) => {
       });
       return;
     }
+
     res.json({
       status: "error",
-      message: "Unable to add new admin, Please try agian later",
+      message: "Unable to add new admin, Please try again later",
     });
   } catch (error) {
     if (error.message.includes("E11000 duplicate key error")) {
       error.statusCode = 400;
-      error.message = "The email is already in use.";
+      error.message =
+        "This email is already used by another Admin, Use different email or reset your password";
     }
+
     next(error);
   }
 });
 
-router.put("/verify", async (req, res, next) => {
+//verifying the new account
+router.post(
+  "/admin-verification",
+  newAdminVerificationValidation,
+  async (req, res, next) => {
+    try {
+      const { c, e } = req.body;
+      const filter = {
+        email: e,
+        verificationCode: c,
+      };
+      const updateObj = {
+        isVerified: true,
+        verificationCode: "",
+      };
+      const result = await updateAdmin(filter, updateObj);
+
+      if (result?._id) {
+        await accountVerifiedNotification(result);
+        res.json({
+          status: "success",
+          message: "Your account has been verified, you may login now!",
+        });
+
+        return;
+      }
+      res.json({
+        status: "error",
+        message: "Link is expired or invalid!",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.post("/sign-in", loginValidation, async (req, res, next) => {
   try {
-    const { email, verificationCode } = req.body;
+    const { email, password } = req.body;
 
-    // Find the user by email and verificationCode
+    //find the user by email
+
     const user = await getAdminByEmail(email);
+    if (user?._id) {
+      //check the password
+      const isMatched = compairPassword(password, user.password);
 
-    if (!user) {
-      return res.json({
-        status: "error",
-        message: "User not found.",
-      });
+      if (isMatched) {
+        //create 2 jwts:
+
+        const accessJWT = await createAcessJWT(email);
+        const refreshJWT = await createRefreshJWT(email);
+
+        //// create accessJWT and store in session table: short live 15m
+        //// create refreshJWT and store with user data in user table: long live 30d
+
+        return res.json({
+          status: "success",
+          message: "logined successfully",
+          token: { accessJWT, refreshJWT },
+        });
+      }
     }
-    if (user.verificationCode !== verificationCode) {
-      return res.json({
-        status: "error",
-        message: "Sorry. Invalid verification code.",
-      });
-    }
-    const updatedUser = await updateAdminById(user?._id, {
-      isVerified: true,
-      verificationCode: "",
+
+    // return the jwts
+    res.json({
+      status: "error",
+      message: "Invalid login details",
     });
-
-    // if (
-    //   updatedUser.isVerified === true &&
-    //   updatedUser.verificationCode === ""
-    // ) {
-    //   return res.json({
-    //     status: "success",
-    //     message: "Email has already been verified. You can now SignIn.",
-    //   });
-    // }
-    if (updatedUser) {
-      return res.json({
-        status: "success",
-        message: "Email has been verified. You can now SignIn.",
-      });
-    } else {
-      return res.json({
-        status: "error",
-        message: "Failed to update user verification status.",
-      });
-    }
   } catch (error) {
     next(error);
   }
 });
 
-router.get("/", async (req, res, next) => {
+// return the refreshJWT
+router.get("/get-accessjwt", refreshAuth);
+
+//logout
+router.post("/logout", async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { accessJWT, refreshJWT, _id } = req.body;
 
-    // Find the user by email and verificationCode
-    const user = await getAdminByEmail(email);
+    accessJWT && deleteSession(accessJWT);
 
-    if (!user) {
-      return res.json({
-        status: "error",
-        message: "User not found.",
-      });
+    if (refreshJWT && _id) {
+      const dt = await updateAdminById({ _id, refreshJWT: "" });
     }
+
+    res.json({
+      status: "success",
+    });
   } catch (error) {
     next(error);
   }

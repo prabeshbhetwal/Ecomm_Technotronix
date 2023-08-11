@@ -1,11 +1,9 @@
 import React from "react";
 
-const Footer = () => {
+export const Footer = () => {
   return (
-    <div className="bg-dark p-4 text-light text-center">
-      &copy; Copyright @ Prabesh Bhetwal 2023. All rights reserved.
+    <div className="bg-dark text-light p-5 text-center">
+      &copy;Copyrights Reserved 2023 || Technotronix Groups Pty.
     </div>
   );
 };
-
-export default Footer;

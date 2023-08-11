@@ -1,7 +1,11 @@
+.main {
+  /* min-height: 70vh; */
+  background: rgba(205, 225, 255, 0.729);
+}
+
 .admin-layout {
   display: flex;
 }
-
 .admin-layout .side-bar {
   width: 230px;
   position: fixed;
@@ -9,28 +13,16 @@
 }
 
 .admin-layout .main {
-  width: calc(100vw - 230px);
   margin-left: 230px;
+  width: calc(100vw - 230px);
 }
 
 .page-content {
-  height: 84.39vh;
+  height: 83vh;
 }
 
-.side-nav li {
-  line-height: 1.4rem;
-  font-weight: 300;
-  padding: 5px;
-  border: 1px solid rgb(125, 125, 125);
-  color: rgba(255, 255, 255, 0.55);
-  border-radius: 7px;
-  margin: 10px;
-  text-align: justify;
-  font-size: 1.2rem;
-}
-
-.side-nav li:hover {
-  cursor: pointer;
-  background-color: rgb(125, 125, 125);
-  color: white;
+.sid-nav li {
+  line-height: 3rem;
+  font-weight: 600;
+  /* font-size: 1.3rem; */
 }

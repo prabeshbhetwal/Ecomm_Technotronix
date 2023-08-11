@@ -1,16 +1,12 @@
 import React from "react";
-
-import Header from "../../components/layout/Header";
-import { AdminSignup } from "../../components/admin-signup/AdminSignUp";
+import { AdminSignup } from "../../components/admin-signup/AdminSignup";
+import { AdminLayout } from "../../components/layout/AdminLayout";
 
 const SignUp = () => {
   return (
-    <div>
-      <Header />
-      <main className="main">
-        <AdminSignup />
-      </main>
-    </div>
+    <AdminLayout title="Add New Admin">
+      <AdminSignup />
+    </AdminLayout>
   );
 };
 

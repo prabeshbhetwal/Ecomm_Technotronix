@@ -13,6 +13,15 @@ Content-Type: application/json
 "password": "yeahbaby"
 }
 
+### Create new admin
+POST {{rootApi}}/admin/sign-in
+Content-Type: application/json
+
+{
+"email": "jarvis.pc1@hotmail.com",
+"password": "yeahbaby"
+}
+
 ### Check Verification
 GET {{rootApi}}/admin
 Content-Type: application/json
@@ -27,10 +36,19 @@ Content-Type: application/json
     "title":"Home Appliances", 
 }
 
-### GET Category
+### GET Categories
 GET {{rootApi}}/category
 Content-Type: application/json
 
 {
     "title":"Home Appliances", 
 }
+
+### GET Categories
+GET {{rootApi}}/category
+Authorization: sdjhfdsjhfbdsjkbvjdshvbjdfsbvjhfdsv.dsfdsfdsfdskjdsbfjh.dsfdsfdsfsdfsdf
+
+
+### GET Categories
+GET {{rootApi}}/category
+Authorization: sdjhfdsjhfbdsjkbvjdshvbjdfsbvjhfdsv.dsfdsfdsfdskjdsbfjh.dsfdsfdsfsdfsdf

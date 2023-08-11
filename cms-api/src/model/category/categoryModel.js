@@ -1,14 +1,21 @@
-import categorySchema from "./categorySchema.js";
+import CategorySchema from "./CategorySchema.js";
 
 export const insertCategory = (obj) => {
-  return categorySchema(obj).save();
+  return CategorySchema(obj).save();
 };
+
 export const getCategories = () => {
-  return categorySchema.find();
+  return CategorySchema.find();
 };
-export const updateCategoryById = (_id, obj) => {
-  return categorySchema.findByIdAndUpdate(_id, obj, { new: true });
+
+export const updateCategoryById = ({ _id, ...rest }) => {
+  return CategorySchema.findByIdAndUpdate(_id, rest);
 };
-export const deleteCategory = (_id) => {
-  return categorySchema.findByIdAndDelete(_id);
+//@filter, @updateObj must be an obj
+export const updateCategory = (filter, updateObj) => {
+  return CategorySchema.findOneAndUpdate(filter, updateObj, { new: true });
+};
+
+export const deleteCategorybyId = (_id) => {
+  return CategorySchema.findByIdAndDelete(_id);
 };

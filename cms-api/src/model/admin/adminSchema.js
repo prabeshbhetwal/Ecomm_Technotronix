@@ -25,7 +25,7 @@ const adminSchema = new mongoose.Schema(
     email: {
       type: String,
       unique: true,
-      index: -1, //index in descending order || 1 means ascending order
+      index: 1,
       required: true,
     },
     password: {
@@ -40,10 +40,14 @@ const adminSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    refreshJWT: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,
   }
 );
 
-export default mongoose.model("Admin", adminSchema); //admins
+export default mongoose.model("Admin", adminSchema); ///admins

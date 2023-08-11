@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { CustomInput } from "../custom-input/customInput";
+import { CustomInput } from "../custom-input/CustomInput";
 import { toast } from "react-toastify";
 import { createNewAdminAction } from "../../pages/signin-signup/adminAction";
-import { Link } from "react-router-dom";
 
 export const AdminSignup = () => {
   const [form, setForm] = useState({});
@@ -23,7 +22,7 @@ export const AdminSignup = () => {
     const { confirmPassword, ...rest } = form;
 
     if (confirmPassword !== rest.password) {
-      return toast.error("Password should match.");
+      return toast.error("Password should match");
     }
     createNewAdminAction(rest);
   };
@@ -87,7 +86,7 @@ export const AdminSignup = () => {
         style={{ width: "450px" }}
         className="m-auto border p-4 shadow-lg mt-5 rounded"
       >
-        <h3>Sign Up</h3>
+        <h3>Add New Admin</h3>
         <hr />
         {inputs.map((itm, i) => (
           <CustomInput key={i} {...itm} onChange={handleOnChange} />
@@ -95,11 +94,8 @@ export const AdminSignup = () => {
 
         <div className="d-grid mt-5">
           <Button variant="dark" type="submit">
-            Sign Up
+            Submit New Admin
           </Button>
-        </div>
-        <div className="text-center mt-3">
-          Already have an account? <Link to="/">Sign In</Link>
         </div>
       </Form>
     </div>

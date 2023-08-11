@@ -4,13 +4,13 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+export const Header = () => {
   return (
     <div>
       <Navbar expand="md" variant="dark" className="bg-dark">
         <Container>
           <Link to="/" className="navbar-brand">
-            Ecomm Technotronix
+            Technotronix
           </Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -20,9 +20,9 @@ const Header = () => {
               </Link>
               <Link to="/" className="nav-link">
                 Sign In
-              </Link>{" "}
-              <Link to="/new-admin" className="nav-link">
-                Sign Up
+              </Link>
+              <Link to="/ " className="nav-link">
+                Sign Out
               </Link>
             </Nav>
           </Navbar.Collapse>
@@ -31,5 +31,3 @@ const Header = () => {
     </div>
   );
 };
-
-export default Header;
