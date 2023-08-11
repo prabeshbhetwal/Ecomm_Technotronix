@@ -29,7 +29,7 @@ export const Header = () => {
       <Navbar expand="md" variant="dark" className="bg-dark">
         <Container>
           <Link to="/" className="navbar-brand">
-            E-Store
+            Technotronix Groups
           </Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
