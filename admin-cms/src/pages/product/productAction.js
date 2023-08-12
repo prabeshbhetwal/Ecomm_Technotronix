@@ -1,6 +1,10 @@
 import { toast } from "react-toastify";
-import { deleteProduct, postNewProduct } from "../../helper/axios";
-import { getProducts } from "../../../../cms-api/src/model/product/ProductModel";
+import {
+  deleteProduct,
+  getNewProducts,
+  postNewProduct,
+} from "../../helper/axios";
+
 import { setProducts } from "./productSlice";
 
 export const postNewProductAction = (data) => async (dispatch) => {
@@ -20,7 +24,7 @@ export const postNewProductAction = (data) => async (dispatch) => {
 };
 
 export const getProductsAction = () => async (dispatch) => {
-  const { status, message, products } = await getProducts();
+  const { status, message, products } = await getNewProducts();
 
   toast[status](message);
 

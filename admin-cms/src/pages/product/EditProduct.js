@@ -1,20 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AdminLayout } from "../../components/layout/AdminLayout";
 import { Button, Form } from "react-bootstrap";
 import { CustomInput } from "../../components/custom-input/CustomInput";
 import { useDispatch } from "react-redux";
 import { postNewProductAction } from "./productAction";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { SelectCategory } from "../../components/category/SelectCategory";
+import { getNewProducts } from "../../helper/axios";
 
 const initialState = {
   status: "inactive",
 };
 
-const NewProduct = () => {
+const EditProduct = () => {
+  const { _id } = useParams;
+  console.log(_id);
+
+  const dispatch = useDispatch();
   const [imgs, setImgs] = useState([]);
   const [form, setForm] = useState(initialState);
-  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getSelectedProduct();
+  }, [dispatch]);
+
+  const getSelectedProduct = async () => {
+    const { products } = await getNewProducts();
+    products?._id && setForm(products);
+  };
   const inputs = [
     {
       name: "name",
@@ -22,6 +35,7 @@ const NewProduct = () => {
       type: "text",
       placeholder: "SamsungTV",
       require: true,
+      value: form.name,
     },
     {
       name: "sku",
@@ -29,6 +43,7 @@ const NewProduct = () => {
       type: "text",
       placeholder: "Sam-TV-90",
       require: true,
+      value: form.sku,
     },
     {
       name: "qty",
@@ -36,6 +51,7 @@ const NewProduct = () => {
       type: "text",
       placeholder: "50",
       require: true,
+      value: form.qty,
     },
     {
       name: "price",
@@ -43,22 +59,26 @@ const NewProduct = () => {
       type: "number",
       placeholder: "1000",
       require: true,
+      value: form.price,
     },
     {
       name: "salesPrice",
       label: "Sales Price",
       type: "number",
       placeholder: "800",
+      value: form.salesPrice,
     },
     {
       name: "salesStartDate",
       label: "Sales Start Date",
       type: "Date",
+      value: form.salesStartDate?.slice(0, 10),
     },
     {
       name: "salesEndDate",
       label: "Sales End Date",
       type: "Date",
+      value: form.salesEndDate?.slice(0, 10),
     },
     {
       name: "description",
@@ -68,6 +88,7 @@ const NewProduct = () => {
       placeholder: "Product Description",
       rows: "10",
       require: true,
+      value: form.description,
     },
   ];
 
@@ -116,16 +137,32 @@ const NewProduct = () => {
               type="switch"
               label="Status"
               onChange={handleOnChange}
+              checked={form.status === "active"}
             />
           </Form.Group>
           <SelectCategory
             onChange={handleOnChange}
             name="parentCat"
             required={true}
+            _id={form.parentCat}
           />
           {inputs.map((item, i) => (
             <CustomInput key={i} {...item} onChange={handleOnChange} />
           ))}
+
+          <div className="py-5">
+            {form.images?.map((url) => (
+              <img
+                className="img-thumbnail"
+                key={url}
+                src={
+                  process.env.REACT_APP_ROOT_SERVER + form.images[0]?.slice(6)
+                }
+                alt=""
+                width="300px"
+              ></img>
+            ))}
+          </div>
 
           <Form.Group className="mb-3 mt-3">
             <Form.Control
@@ -146,4 +183,4 @@ const NewProduct = () => {
   );
 };
 
-export default NewProduct;
+export default EditProduct;

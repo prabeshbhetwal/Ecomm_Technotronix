@@ -14,6 +14,12 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 
+import path from "path";
+const __dirname = path.resolve();
+
+// Converting PUBLIC folder to STATIC folder to serve the content
+app.use(express.static(path.join(__dirname, "public")));
+
 // api
 import { auth } from "./src/middleware/authMiddleware.js";
 

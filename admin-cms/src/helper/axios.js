@@ -207,10 +207,10 @@ export const postNewProduct = (data) => {
   return axiosProcessor(obj);
 };
 
-export const getNewProducts = () => {
+export const getNewProducts = (_id) => {
   const obj = {
     method: "get",
-    url: productAPI,
+    url: _id ? productAPI + "/" + _id : productAPI,
     isPrivate: true,
   };
   return axiosProcessor(obj);

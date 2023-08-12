@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
-import { Form } from "react-router-dom";
+import { Form, Link } from "react-router-dom";
 import { deleteProductAction, getProductsAction } from "./productAction";
 
 const ProductTable = () => {
@@ -28,20 +28,34 @@ const ProductTable = () => {
           <tr>
             <th>#</th>
             <th>Thumbnail</th>
+            <th>Status</th>
             <th>Name</th>
             <th>QTY</th>
             <th>Edit</th>
           </tr>
         </thead>
         <tbody>
-          {products.map((item, i, name, qty) => (
+          {products.map((item, i) => (
             <tr key={item._id}>
               <td>{i + 1}</td>
-              <td>no img</td>
-              <td>{name}</td>
-              <td>{qty}</td>
               <td>
-                <Button variant="warning">Edit</Button>
+                <img
+                  src={
+                    process.env.REACT_APP_ROOT_SERVER + item.images[0]?.slice(6)
+                  }
+                  alt=""
+                  width="150px"
+                ></img>
+              </td>
+              <td>
+                <h3>{item.name}</h3>
+                Price: {item.price}
+              </td>
+              <td>{item.qty}</td>
+              <td>
+                <Link to={`/product/edit/${item.id}`}>
+                  <Button variant="warning">Edit</Button>
+                </Link>
                 <Button
                   variant="danger"
                   onClick={() => dispatch(deleteProductAction(item._id))}
