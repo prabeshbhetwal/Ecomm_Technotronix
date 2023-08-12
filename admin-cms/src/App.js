@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getCatsAction } from "./pages/category/categoryAction";
 import { PrivateRoute } from "./components/private/PrivateRoute";
+import NewProduct from "./pages/product/NewProduct";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,7 +29,6 @@ function App() {
       <Routes>
         <Route path="/" element={<SignIn />} />
         <Route path="admin-verification" element={<AdminVerification />} />
-
         {/* private router */}
         <Route
           path="dashboard"
@@ -108,6 +108,15 @@ function App() {
             <PrivateRoute>
               {" "}
               <Profile />{" "}
+            </PrivateRoute>
+          }
+        />{" "}
+        <Route
+          path="new-product"
+          element={
+            <PrivateRoute>
+              {" "}
+              <NewProduct />{" "}
             </PrivateRoute>
           }
         />
