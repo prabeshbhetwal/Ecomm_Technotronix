@@ -1,15 +1,6 @@
 import express from "express";
-import {
-  deleteCategorybyId,
-  getCategories,
-  insertCategory,
-  updateCategoryById,
-} from "../model/category/CategoryModel.js";
 import slugify from "slugify";
-import {
-  newProductValidation,
-  updateProductValidation,
-} from "../middleware/joiValidation.js";
+import { newProductValidation } from "../middleware/joiValidation.js";
 import {
   deleteProductById,
   getProducts,
