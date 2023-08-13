@@ -19,6 +19,7 @@ import { getCatsAction } from "./pages/category/categoryAction";
 import { PrivateRoute } from "./components/private/PrivateRoute";
 import NewProduct from "./pages/product/NewProduct";
 import EditProduct from "./pages/product/EditProduct.js";
+import ResetPassword from "./pages/signin-signup/ResetPassword.js";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,8 +29,10 @@ function App() {
   return (
     <div className="">
       <Routes>
+        {/* public router */}
         <Route path="/" element={<SignIn />} />
         <Route path="admin-verification" element={<AdminVerification />} />
+        <Route path="request-otp" element={<ResetPassword />} />
         {/* private router */}
         <Route
           path="dashboard"
