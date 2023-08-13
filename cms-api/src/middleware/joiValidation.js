@@ -3,7 +3,7 @@ import Joi from "joi";
 const SHORTSTRREQ = Joi.string().min(3).max(100).required();
 const SHORTSTR = Joi.string().min(3).max(100);
 const LONGSTRREQ = Joi.string().min(3).max(10000).required();
-const LONGSTR = Joi.string().min(3).max(10000);
+const LONGSTR = Joi.string().min(3).max(10000).allow("");
 const NUM = Joi.number();
 const NUMREQ = Joi.number().required();
 
@@ -164,6 +164,48 @@ export const newProductValidation = (req, res, next) => {
     });
 
     const { error } = schema.validate(req.body);
+
+    error
+      ? res.json({
+          status: "error",
+          message: error.message,
+        })
+      : next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateProductValidation = (req, res, next) => {
+  try {
+    req.body.salesPrice = req.body.salesPrice || 0;
+    req.body.salesStartDate =
+      req.body.salesStartDate === "null" || !req.body.salesStartDate
+        ? null
+        : req.body.salesEndDate;
+    req.body.salesEndDate =
+      req.body.salesEndDate === "null" || !req.body.salesEndDate
+        ? null
+        : req.body.salesEndDate;
+
+    //define the schema
+    const schema = Joi.object({
+      _id: SHORTSTRREQ,
+      status: SHORTSTRREQ,
+      name: SHORTSTRREQ,
+      parentCat: SHORTSTRREQ,
+      price: NUMREQ,
+      qty: NUMREQ,
+      salesPrice: NUM,
+      description: LONGSTRREQ,
+      salesStartDate: SHORTSTR.allow("", null),
+      salesEndDate: SHORTSTR.allow("", null),
+      images: LONGSTR,
+      thumbnail: LONGSTR,
+    });
+
+    const { error } = schema.validate(req.body);
+    req.body.images = req.body.images.split(",");
 
     error
       ? res.json({

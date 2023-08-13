@@ -224,3 +224,12 @@ export const deleteProduct = (_id) => {
   };
   return axiosProcessor(obj);
 };
+
+export const updateProduct = (_id) => {
+  const obj = {
+    method: "put",
+    url: productAPI,
+    isPrivate: true,
+  };
+  return axiosProcessor(obj);
+};

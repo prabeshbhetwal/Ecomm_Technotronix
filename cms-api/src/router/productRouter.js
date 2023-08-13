@@ -1,10 +1,14 @@
 import express from "express";
 import slugify from "slugify";
-import { newProductValidation } from "../middleware/joiValidation.js";
+import {
+  newProductValidation,
+  updateProductValidation,
+} from "../middleware/joiValidation.js";
 import {
   deleteProductById,
   getProductById,
   getProducts,
+  updateProductById,
 } from "../model/product/ProductModel.js";
 import multer from "multer";
 
@@ -78,23 +82,33 @@ router.post(
   }
 );
 
-// router.put("/", updateCatValidation, async (req, res, next) => {
-//   try {
-//     const result = await updateCategoryById(req.body);
+router.put(
+  "/",
+  upload.array("images", 5),
+  updateProductValidation,
+  async (req, res, next) => {
+    try {
+      if (req.files.length) {
+        const newImgs = req.files.map((item) => item.path);
+        req.body.images = [...req.body.images, ...newImgs];
+      }
 
-//     result?._id
-//       ? res.json({
-//           status: "success",
-//           message: "The category has been updated",
-//         })
-//       : res.json({
-//           status: "error",
-//           message: "Error, Unable to udpate new category.",
-//         });
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+      const result = await updateProductById(req.body);
+
+      result?._id
+        ? res.json({
+            status: "success",
+            message: "New Product has been added",
+          })
+        : res.json({
+            status: "error",
+            message: "Error, Unable to add new Product.",
+          });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 router.delete("/:_id", async (req, res, next) => {
   const { _id } = req.params;
