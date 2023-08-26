@@ -63,7 +63,6 @@ export const NewPaymentOption = () => {
               label="Description"
               name="description"
               placeholder="How do you want to make the payment?"
-              required
               onChange={handleOnChange}
               value={form.description}
             />

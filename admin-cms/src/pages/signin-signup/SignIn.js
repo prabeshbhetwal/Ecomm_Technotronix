@@ -76,7 +76,7 @@ const SignIn = () => {
             </Button>
           </div>
           <p className="mt-2 text-end">
-            Forget password? <Link to="reset-pass-otp">Reset Now</Link>
+            Forget password? <Link to="request-otp">Reset Now</Link>
           </p>
         </Form>
       </main>

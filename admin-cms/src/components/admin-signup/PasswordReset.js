@@ -8,17 +8,21 @@ export const PasswordReset = ({ setForm }) => {
       <h3>Reset New Password</h3>
       <hr />
 
-      <CustomInput label="OTP" placeholder="12345" />
-      <CustomInput label="Password" placeholder="****" />
-      <CustomInput label="confirmPassword" placeholder="****" />
+      <CustomInput label="OTP" type="number" placeholder="12345" />
+      <CustomInput label="Password" type="password" placeholder="****" />
+      <CustomInput
+        label="Confirm Password"
+        type="password"
+        placeholder="****"
+      />
       <div className="d-grid mt-3">
-        <Button variant="dark">Request OTP</Button>
+        <Button variant="dark">Reset Password</Button>
       </div>
 
       <div className="text-end py-3">
-        Didn't receive OTP{" "}
+        Didn't receive OTP?{" "}
         <a onClick={() => setForm("otp")} href="#!">
-          Request again.
+          Request Again
         </a>
       </div>
     </Form>

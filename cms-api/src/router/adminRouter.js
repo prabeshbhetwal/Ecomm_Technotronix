@@ -136,7 +136,7 @@ router.post("/sign-in", loginValidation, async (req, res, next) => {
 
         return res.json({
           status: "success",
-          message: "logined successfully",
+          message: `Welcome back, ${user.fName}.`,
           token: { accessJWT, refreshJWT },
         });
       }
@@ -145,7 +145,7 @@ router.post("/sign-in", loginValidation, async (req, res, next) => {
     // return the jwts
     res.json({
       status: "error",
-      message: "Invalid login details",
+      message: "Invalid login details.",
     });
   } catch (error) {
     next(error);

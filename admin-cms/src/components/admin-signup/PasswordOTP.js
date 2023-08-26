@@ -14,12 +14,12 @@ export const PasswordOTP = ({ handleOnOtpRequest }) => {
 
   return (
     <Form>
-      <h3>Requst OTP</h3>
+      <h3>Request OTP</h3>
       <hr />
 
       <CustomInput
         someRef={emailRef}
-        label="email"
+        label="Enter your email address"
         placeholder="sam@email.com"
       />
       <div className="d-grid mt-3">
