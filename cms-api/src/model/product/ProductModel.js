@@ -20,6 +20,11 @@ export const updateProductById = ({ _id, ...rest }) => {
   return productSchema.findByIdAndUpdate(_id, rest);
 };
 
+//@filter, @updateObj must be an obj
+export const updateproduct = (filter, updateObj) => {
+  return productSchema.findOneAndUpdate(filter, updateObj, { new: true });
+};
+
 export const deleteProductById = (_id) => {
   return productSchema.findByIdAndDelete(_id);
 };

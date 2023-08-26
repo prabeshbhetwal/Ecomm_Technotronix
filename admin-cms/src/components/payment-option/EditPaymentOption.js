@@ -54,7 +54,7 @@ export const EditPaymentOption = ({ po }) => {
           <Form onSubmit={handleOnSubmit}>
             <label htmlFor="">Status</label>
             <Form.Select name="status" onChange={handleOnChange} required>
-              <option value="">--Select One --</option>
+              <option value="">--Select One--</option>
               <option value="active" selected={form.status === "active"}>
                 Active
               </option>
@@ -65,7 +65,7 @@ export const EditPaymentOption = ({ po }) => {
             <CustomInput
               label="Title"
               name="title"
-              placeholder="Pay By Credit Care"
+              placeholder="Pay By Credit Card"
               required
               onChange={handleOnChange}
               value={form.title}

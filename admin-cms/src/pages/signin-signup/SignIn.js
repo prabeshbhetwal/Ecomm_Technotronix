@@ -49,7 +49,7 @@ const SignIn = () => {
           style={{ width: "450px", margin: "auto" }}
         >
           <h1 className="mb-5">
-            Welcome Back
+            Welcome Back {form.fName}
             <hr />
           </h1>
 
@@ -76,7 +76,7 @@ const SignIn = () => {
             </Button>
           </div>
           <p className="mt-2 text-end">
-            Forget password? <Link to="reset-pass-otp">reset </Link> now.
+            Forget password? <Link to="reset-pass-otp">Reset Now</Link>
           </p>
         </Form>
       </main>

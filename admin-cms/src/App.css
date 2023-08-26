@@ -1,5 +1,5 @@
 .main {
-  min-height: 84.3vh;
+  min-height: 83vh;
   background: rgba(205, 225, 255, 0.729);
 }
 
@@ -18,8 +18,11 @@
 }
 
 .page-content {
-  /* margin-top: 87.3%; */
-  min-height: 3vh;
+  min-height: 77.1vh;
+}
+
+.footer-content {
+  top: 80vh;
 }
 
 .sid-nav li {

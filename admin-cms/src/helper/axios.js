@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const rootAPI = process.env.REACT_APP_ROOTAPI;
+const rootAPI = process.env.REACT_APP_ROOT_API;
 const adminAPI = rootAPI + "/admin";
 const catAPI = rootAPI + "/category";
 const poAPI = rootAPI + "/payment-option";
@@ -71,6 +71,7 @@ export const postNewAdmin = (data) => {
     method: "post",
     url: adminAPI,
     obj: data,
+    isPrivate: true,
   };
   return axiosProcessor(obj);
 };
@@ -230,6 +231,26 @@ export const updateProduct = (_id) => {
     method: "put",
     url: productAPI,
     isPrivate: true,
+  };
+  return axiosProcessor(obj);
+};
+
+// ======== RESET PASSWORD
+
+export const requestPassOTP = (email) => {
+  const obj = {
+    method: "post",
+    url: adminAPI + "/request-opt",
+    obj: { email },
+  };
+  return axiosProcessor(obj);
+};
+
+export const updateProfile = (data) => {
+  const obj = {
+    method: "put",
+    url: adminAPI + "/profile",
+    obj: data,
   };
   return axiosProcessor(obj);
 };

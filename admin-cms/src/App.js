@@ -12,7 +12,7 @@ import PaymentOption from "./pages/payment-option/PaymentOption";
 import Order from "./pages/order/Order";
 import AdminUser from "./pages/admin-user/AdminUser";
 import Customer from "./pages/customer/Customer";
-import Profile from "./pages/profile/Profile";
+import { Profile } from "./pages/profile/Profile";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getCatsAction } from "./pages/category/categoryAction";

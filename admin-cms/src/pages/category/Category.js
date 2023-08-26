@@ -7,7 +7,6 @@ const Category = () => {
   return (
     <AdminLayout title="Category">
       <NewCatForm />
-
       <CatsTable />
     </AdminLayout>
   );

@@ -22,6 +22,10 @@ const productSchema = new mongoose.Schema(
       index: 1,
       required: true,
     },
+    price: {
+      type: Number,
+      required: true,
+    },
     salesPrice: {
       type: Number,
     },
@@ -38,6 +42,7 @@ const productSchema = new mongoose.Schema(
     sku: {
       type: String,
       required: true,
+      unique: true,
     },
     Description: {
       type: String,

@@ -1,8 +1,11 @@
 import React from "react";
 import { AdminLayout } from "../../components/layout/AdminLayout";
+import { ProfilePage } from "./ProfilePage";
 
-const Profile = () => {
-  return <AdminLayout title="Profile">Profile</AdminLayout>;
+export const Profile = () => {
+  return (
+    <AdminLayout title="Profile">
+      <ProfilePage />
+    </AdminLayout>
+  );
 };
-
-export default Profile;
